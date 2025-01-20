@@ -3,7 +3,7 @@
 # Overview
 This project involves a comprehensive analysis of Netflix's movies and TV shows data using SQL. The goal is to extract valuable insights and answer various business questions based on the dataset. The following README provides a detailed account of the project's objectives, business problems, solutions, findings, and conclusions.
 
-#Objectives
+# Objectives
 Analyze the distribution of content types (movies vs TV shows).
 Identify the most common ratings for movies and TV shows.
 List and analyze content based on release years, countries, and durations.
@@ -11,8 +11,8 @@ Explore and categorize content based on specific criteria and keywords.
 #Dataset
 The data for this project is sourced from the Kaggle dataset:
 
-#Dataset Link: Movies Dataset
-#Schema
+# Dataset Link: Movies Dataset
+# Schema
 
 create table titles
 (
@@ -49,38 +49,38 @@ alter column casts type varchar(1000);
 
 select * from titles
 
-#--  query to implemented for the projects --
-#-- count the number of movies vs tv shows --
+# --  query to implemented for the projects --
+# -- count the number of movies vs tv shows --
 
  select type,
  count(*) as total_content 
  from titles
  group by type
 
-#-- find the most common rating for movies and tv shows --
+# -- find the most common rating for movies and tv shows --
 
 select  type , 
 max(rating)
 from titles
 group by 1
 
-#-- list all the movies released in specific year(2020) --
+# -- list all the movies released in specific year(2020) --
 
 select count(title)  from titles 
 where release_year=2020
 
-#-- find the 5 countries with the most watched content on netflix --
+# -- find the 5 countries with the most watched content on netflix --
 
 select country, 
 unnest (string_to_array(country,',')) as new_country 
 from titles
 group by 1
 
-#-- selec the lonegst movie --
+# -- selec the lonegst movie --
 
 select max(duration) from titles
 
-#-- find the content in the last five years --
+# -- find the content in the last five years --
 
 select
        *,
@@ -88,13 +88,13 @@ from titles
 where 
 to_date(date_added, 'month , dd, yyyy') >= current_date-interval '5 years'
 
-#-- movies given by director "rajiv chilaka"  --
+# -- movies given by director "rajiv chilaka"  --
  
  select title from titles
  where
  director='Rajiv Chilaka'
 
- #-- list tv show with more than 5 seasons  --
+ # -- list tv show with more than 5 seasons  --
 
  select *
  from titles
@@ -103,7 +103,7 @@ to_date(date_added, 'month , dd, yyyy') >= current_date-interval '5 years'
  AND
  SPLIT_PART(duration,' ',1 )::numeric> 5 
 
-# -- number of content in each genre  --
+#   -- number of content in each genre  --
 
  select
  unnest(string_to_array(listed_in, ',')),
@@ -111,7 +111,7 @@ count(show_id)
 from titles
  group by 1
 
- #-- find the each year and content relaeased average by india --
+ # -- find the each year and content relaeased average by india --
 
  select 
  extract(year from to_date(date_added,'month , dd , yyyy' )),
@@ -120,14 +120,14 @@ from titles
  where country='India'
  group by 1
 
- #-- list all movies which are documentaries--
+ # -- list all movies which are documentaries--
 
 select 
 unnest(string_to_array(listed_in, ','))
 from titles
 where type='Movies'
 
-#-- 10 actors who appereared in highest number of movies --
+# -- 10 actors who appereared in highest number of movies --
 
 select 
 unnest(string_to_array(casts, ',')),
@@ -138,7 +138,7 @@ group by 1
 order by 2 desc
 limit 10
 
-#-- categorixe content based on kill and voilence and rename them  --
+# -- categorixe content based on kill and voilence and rename them  --
 
 select 
 *,
@@ -151,7 +151,7 @@ select
   from titles
 
 
-#Findings and Conclusion
+# Findings and Conclusion
 Content Distribution: The dataset contains a diverse range of movies and TV shows with varying ratings and genres.
 Common Ratings: Insights into the most common ratings provide an understanding of the content's target audience.
 Geographical Insights: The top countries and the average content releases by India highlight regional content distribution.
